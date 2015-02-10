@@ -83,6 +83,6 @@ A sys-admin team member could end in a workflow like this:
 
 ## More info
 
-This was inspired by this blogpost by [Vincent Bernat]([http://vincent.bernat.im/en/blog/2014-netfilter-firewall-script.html).  
+This was inspired by this blogpost by [Vincent Bernat](http://vincent.bernat.im/en/blog/2014-netfilter-firewall-script.html).  
 Check the [nftables wiki](http://wiki.nftables.org).  
 Also, the official docs about [git hooks](http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks).
