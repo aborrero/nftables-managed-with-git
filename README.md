@@ -1,6 +1,6 @@
 # nftables ruleset managed with git
 
-In this article I will be mixing some ideas and concepts both of my own and I've seen in the web:
+In [this article](http://ral-arturo.blogspot.com.es/2015/02/nftables-ruleset-managed-with-git.html) I will be mixing some ideas and concepts both of my own and I've seen in the web:
  * git hooks to check content of new commit
  * linux net namespaces to check if ruleset could load
  * atomically replace a nftables ruleset
