@@ -73,13 +73,14 @@ You should take care also of standard unix users/groups layout. Give appropriate
 ## The workflow
 
 A sys-admin team member could end in a workflow like this:
-1. Clone the nft-firewall.git repo
-2. Make changes to the ruleset (add a rule, replace other... whatever)
-3. Run some local tests (sure)
-4. Commit on your local repo
-5. Push to the git server
-6. The git server will run the hook scripts, testing and deploying the new ruleset
-7. Other sysadmin clones or pull the repo and go to step 2.
+
+ 1. Clone the nft-firewall.git repo
+ 2. Make changes to the ruleset (add a rule, replace other... whatever)
+ 3. Run some local tests (sure)
+ 4. Commit on your local repo
+ 5. Push to the git server
+ 6. The git server will run the hook scripts, testing and deploying the new ruleset
+ 7. Other sysadmin clones or pull the repo and go to step 2.
 
 ## More info
 
