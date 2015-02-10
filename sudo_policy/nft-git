@@ -1,0 +1,11 @@
+User_Alias	OPERATORS = user1, user2
+Defaults	env_keep += "GIT_WORK_TREE"
+
+OPERATORS	ALL=(ALL) NOPASSWD:/*/ip netns add nft-test-ruleset
+OPERATORS	ALL=(ALL) NOPASSWD:/bin/ip netns list
+OPERATORS	ALL=(ALL) NOPASSWD:/bin/ip netns exec nft-test-ruleset /usr/sbin/nft -f *
+OPERATORS	ALL=(ALL) NOPASSWD:/bin/ip netns exec nft-test-ruleset /usr/sbin/nft flush ruleset
+OPERATORS	ALL=(ALL) NOPASSWD:/bin/ip netns delete nft-test-ruleset
+OPERATORS	ALL=(ALL) NOPASSWD:/usr/bin/git checkout -f
+OPERATORS	ALL=(ALL) NOPASSWD:/usr/bin/git clean -f -d
+OPERATORS	ALL=(ALL) NOPASSWD:/usr/sbin/nft -f *

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+NAME="hooks/update"
+
+info()
+{
+	echo "$NAME $1 ..."
+}
+
+warning()
+{
+	echo "W: ${NAME}: $1 ..." >&2
+	rm -rf $DEST 2>/dev/null
+	exit 0
+}
+
+error()
+{
+	echo "E: ${NAME}: $1 ..." >&2
+	rm -rf $DEST 2>/dev/null
+	exit 1
+}
+
+DEST=$(mktemp -d)
+if [ ! -d "$DEST" ] ; then
+	warning "unable to create temp dir"
+fi
+
+REV=$3
+if [ -z "$REV" ] ; then
+	error "invalid input argument for revision"
+fi
+
+NFT="/usr/sbin/nft"
+if [ ! -x "$NFT" ] ; then
+	warning "no nft binary found"
+fi
+
+RULESET="${DEST}/ruleset.nft"
+NETNS="nft-test-ruleset"
+
+info "exporting new revision"
+git archive --format=tar $REV | ( cd $DEST && tar xf -)
+if [ "$?" != "0" ] ; then
+	warning "unable to export revision"
+fi
+
+if [ ! -r $RULESET ] ; then
+	warning "$RULESET doesn't exists"
+fi
+
+info "testing new ruleset"
+# Create netns, ignore if alredy exists
+sudo ip netns add $NETNS 2>/dev/null
+
+# Check if exists
+NETNS_LIST=$(sudo ip netns list)
+grep $NETNS <<< $NETNS_LIST >/dev/null 2>/dev/null
+if [ "$?" != "0" ] ; then
+	warning "unable to create netns $NETNS"
+fi
+
+# Load ruleset
+cd $DEST && sudo ip netns exec $NETNS $NFT -f $RULESET
+if [ "$?" != "0" ] ; then
+	error "failed to load $RULESET"
+fi
+
+# Clear ruleset
+sudo ip netns exec $NETNS $NFT flush ruleset
+if [ "$?" != "0" ] ; then
+	warning "failed to flush ruleset after testing"
+fi
+
+# Delete netns
+sudo ip netns delete $NETNS
+if [ "$?" != "0" ] ; then
+	warning "failed to clean netns $NETNS"
+fi
+
+info "ruleset test was OK"
+rm -rf $DEST
+exit 0

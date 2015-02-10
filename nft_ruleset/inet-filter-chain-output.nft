@@ -1,0 +1,5 @@
+# An example output chain
+chain output {
+	type filter hook output priority 0
+	counter accept
+}

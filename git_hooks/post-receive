@@ -1,0 +1,21 @@
+#!/bin/bash
+
+NAME="hooks/post-receive"
+NFT_ROOT="/etc/nftables.d"
+RULESET="${NFT_ROOT}/ruleset.nft"
+export GIT_WORK_TREE="$NFT_ROOT"
+
+info()
+{
+	echo "$NAME $1 ..."
+}
+
+info "checkout latest data to $GIT_WORK_TREE"
+sudo git checkout -f
+info "cleaning untracked files and dirs at $GIT_WORK_TREE"
+sudo git clean -f -d
+
+info "deploying new ruleset"
+set -e
+cd $NFT_ROOT && sudo nft -f $RULESET
+info "new ruleset deployment was OK"

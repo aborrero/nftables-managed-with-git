@@ -1,0 +1,18 @@
+# don't delete this
+flush ruleset
+
+# The main table
+table inet inet-filter {
+	include "./inet-filter-sets.nft"
+	include "./inet-filter-chain-input.nft"
+	include "./inet-filter-chain-forward.nft"
+	include "./inet-filter-chain-output.nft"
+}
+
+# Other table in other family, just an example
+table bridge bridge-filter {
+	chain forward {
+		type filter hook forward priority 0;
+		counter
+	}
+}
